@@ -27,18 +27,101 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGenerate = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        panInput = new javax.swing.JPanel();
+        lblStartDate = new javax.swing.JLabel();
+        lblRaceType = new javax.swing.JLabel();
+        lblFileName = new javax.swing.JLabel();
+        spnStartDate = new javax.swing.JSpinner();
+        cmbRaceType = new javax.swing.JComboBox();
+        txtFileName = new javax.swing.JTextField();
+
         setClosable(true);
         setTitle("Training Calendar Generator");
+
+        btnGenerate.setText("Generate");
+
+        btnCancel.setText("Cancel");
+
+        panInput.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        lblStartDate.setLabelFor(spnStartDate);
+        lblStartDate.setText("Start Date:");
+
+        lblRaceType.setLabelFor(cmbRaceType);
+        lblRaceType.setText("Race Type:");
+
+        lblFileName.setLabelFor(txtFileName);
+        lblFileName.setText("File Name:");
+
+        spnStartDate.setModel(new javax.swing.SpinnerDateModel());
+        spnStartDate.setToolTipText("");
+
+        cmbRaceType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtFileName.setText("jTextField1");
+
+        javax.swing.GroupLayout panInputLayout = new javax.swing.GroupLayout(panInput);
+        panInput.setLayout(panInputLayout);
+        panInputLayout.setHorizontalGroup(
+            panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblRaceType, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblStartDate, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblFileName, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbRaceType, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        panInputLayout.setVerticalGroup(
+            panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRaceType)
+                    .addComponent(cmbRaceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 476, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addComponent(btnGenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(98, 98, 98))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGenerate)
+                    .addComponent(btnCancel))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -46,5 +129,14 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnGenerate;
+    private javax.swing.JComboBox cmbRaceType;
+    private javax.swing.JLabel lblFileName;
+    private javax.swing.JLabel lblRaceType;
+    private javax.swing.JLabel lblStartDate;
+    private javax.swing.JPanel panInput;
+    private javax.swing.JSpinner spnStartDate;
+    private javax.swing.JTextField txtFileName;
     // End of variables declaration//GEN-END:variables
 }

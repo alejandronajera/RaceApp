@@ -31,7 +31,9 @@ public class RaceApp extends javax.swing.JFrame {
         raceAppMenu = new javax.swing.JMenuBar();
         mnuSystem = new javax.swing.JMenu();
         mnuExit = new javax.swing.JMenuItem();
-        mnuCalendar = new javax.swing.JMenu();
+        mnuRace = new javax.swing.JMenu();
+        mnuRaceList = new javax.swing.JMenuItem();
+        mnuTraining = new javax.swing.JMenu();
         mnuCalGen = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -46,7 +48,7 @@ public class RaceApp extends javax.swing.JFrame {
         );
         raceAppDesktopLayout.setVerticalGroup(
             raceAppDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 489, Short.MAX_VALUE)
+            .addGap(0, 491, Short.MAX_VALUE)
         );
 
         mnuSystem.setText("System");
@@ -61,7 +63,20 @@ public class RaceApp extends javax.swing.JFrame {
 
         raceAppMenu.add(mnuSystem);
 
-        mnuCalendar.setText("Calendar");
+        mnuRace.setText("Races");
+
+        mnuRaceList.setText("Race List");
+        mnuRaceList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRaceListActionPerformed(evt);
+            }
+        });
+        mnuRace.add(mnuRaceList);
+
+        raceAppMenu.add(mnuRace);
+
+        mnuTraining.setBackground(javax.swing.UIManager.getDefaults().getColor("CheckBoxMenuItem.acceleratorForeground"));
+        mnuTraining.setText("Training");
 
         mnuCalGen.setText("Generate Training Calendar");
         mnuCalGen.addActionListener(new java.awt.event.ActionListener() {
@@ -69,9 +84,9 @@ public class RaceApp extends javax.swing.JFrame {
                 mnuCalGenActionPerformed(evt);
             }
         });
-        mnuCalendar.add(mnuCalGen);
+        mnuTraining.add(mnuCalGen);
 
-        raceAppMenu.add(mnuCalendar);
+        raceAppMenu.add(mnuTraining);
 
         setJMenuBar(raceAppMenu);
 
@@ -98,6 +113,12 @@ public class RaceApp extends javax.swing.JFrame {
         raceAppDesktop.add(calendarGenerator);
         calendarGenerator.setVisible(true);
     }//GEN-LAST:event_mnuCalGenActionPerformed
+
+    private void mnuRaceListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRaceListActionPerformed
+        RaceList raceList = new RaceList();
+        raceAppDesktop.add(raceList);
+        raceList.setVisible(true);
+    }//GEN-LAST:event_mnuRaceListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,9 +157,11 @@ public class RaceApp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem mnuCalGen;
-    private javax.swing.JMenu mnuCalendar;
     private javax.swing.JMenuItem mnuExit;
+    private javax.swing.JMenu mnuRace;
+    private javax.swing.JMenuItem mnuRaceList;
     private javax.swing.JMenu mnuSystem;
+    private javax.swing.JMenu mnuTraining;
     private javax.swing.JDesktopPane raceAppDesktop;
     private javax.swing.JMenuBar raceAppMenu;
     // End of variables declaration//GEN-END:variables
