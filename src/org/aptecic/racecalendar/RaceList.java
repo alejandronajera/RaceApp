@@ -5,6 +5,15 @@
  */
 package org.aptecic.racecalendar;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Manuel G. Najera (najera_manuel_g@cat.com)
@@ -16,6 +25,7 @@ public class RaceList extends javax.swing.JInternalFrame {
      */
     public RaceList() {
         initComponents();
+        fillGridFromDB();
     }
 
     /**
@@ -31,18 +41,20 @@ public class RaceList extends javax.swing.JInternalFrame {
         scrList = new javax.swing.JScrollPane();
         txtList = new javax.swing.JTextPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtRaces = new javax.swing.JTable();
         sepList = new javax.swing.JSeparator();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Races");
 
         panList.setBorder(javax.swing.BorderFactory.createTitledBorder("Popular Races"));
 
+        txtList.setEditable(false);
         txtList.setText("The following grid shows a list of the most popular racing distances, these are pulled from a database. Use the controls at the bottom to create, change or delete races from the database.\n\nDouble click a given race if you want to display a Hanson's Marathon Method recommended training calendar.");
         scrList.setViewportView(txtList);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtRaces.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -53,7 +65,12 @@ public class RaceList extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jtRaces.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtRacesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtRaces);
 
         javax.swing.GroupLayout panListLayout = new javax.swing.GroupLayout(panList);
         panList.setLayout(panListLayout);
@@ -99,13 +116,109 @@ public class RaceList extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtRacesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtRacesMouseClicked
+        if (evt.getClickCount() == 2) {
+            javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
+            int row = target.getSelectedRow();
+            int column = target.getSelectedColumn();
+            
+            TrainingSchedule trainingSchedule = new TrainingSchedule();
+            trainingSchedule.setTitle(jtRaces.getValueAt(row, 1).toString());
+            this.getParent().add(trainingSchedule);
+            trainingSchedule.setVisible(true);
+        }
+    }//GEN-LAST:event_jtRacesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtRaces;
     private javax.swing.JPanel panList;
     private javax.swing.JScrollPane scrList;
     private javax.swing.JSeparator sepList;
     private javax.swing.JTextPane txtList;
     // End of variables declaration//GEN-END:variables
+
+    private void fillGridFromDB() {
+        String driver = "org.apache.derby.jdbc.ClientDriver";
+        String serverName = "localhost";
+        String databaseName = "racedb";
+        String user = "race";
+        String password = "race";
+        String url;
+        Connection connection;
+        String sql;
+        Statement stmt;
+        ResultSet rs;
+        ResultSetMetaData md;
+        DefaultTableModel model = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+
+        url = "jdbc:derby://" + serverName + ":1527/" + databaseName;
+
+        //Load JDBC Driver
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error: driver not found.");
+            return;
+        }
+
+        //Connect to DB
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to connect.");
+            return;
+        }
+
+        //Read Table
+        try {
+            sql = "select * from race_wk_sched_mstr";
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(sql);
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to query table.");
+            return;
+        }
+
+        //Read columns name
+        try {
+            for (int i = 1; i <= md.getColumnCount(); i++) {
+                model.addColumn(md.getColumnName(i));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to read table column's name.");
+            return;
+        }
+
+        //Read data values
+        try {
+            while (rs.next()) {
+                Vector row = new Vector(md.getColumnCount());
+
+                for (int i = 1; i <= md.getColumnCount(); i++) {
+                    row.add(rs.getObject(i));
+                }
+
+                model.addRow(row);
+            }
+
+            rs.close();
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to read table data.");
+            return;
+        }
+
+        jtRaces.setModel(model);
+    }
 }

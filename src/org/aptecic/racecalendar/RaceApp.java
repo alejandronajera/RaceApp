@@ -11,11 +11,15 @@ package org.aptecic.racecalendar;
  */
 public class RaceApp extends javax.swing.JFrame {
 
+    RaceList raceList;
+    
     /**
      * Creates new form RaceApp
      */
     public RaceApp() {
         initComponents();
+        raceList = new RaceList();
+        raceAppDesktop.add(raceList);
     }
 
     /**
@@ -44,7 +48,7 @@ public class RaceApp extends javax.swing.JFrame {
         raceAppDesktop.setLayout(raceAppDesktopLayout);
         raceAppDesktopLayout.setHorizontalGroup(
             raceAppDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 690, Short.MAX_VALUE)
+            .addGap(0, 850, Short.MAX_VALUE)
         );
         raceAppDesktopLayout.setVerticalGroup(
             raceAppDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,7 +98,7 @@ public class RaceApp extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(raceAppDesktop, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(raceAppDesktop)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,9 +119,7 @@ public class RaceApp extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuCalGenActionPerformed
 
     private void mnuRaceListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRaceListActionPerformed
-        RaceList raceList = new RaceList();
-        raceAppDesktop.add(raceList);
-        raceList.setVisible(true);
+        raceList.setVisible(true);        
     }//GEN-LAST:event_mnuRaceListActionPerformed
 
     /**
