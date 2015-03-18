@@ -5,17 +5,42 @@
  */
 package org.aptecic.racecalendar;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Manuel G. Najera (najera_manuel_g@cat.com)
  */
 public class CalendarGenerator extends javax.swing.JInternalFrame {
 
+    HashMap<Integer, String> cmbKeyIndex = new HashMap<>();
+
     /**
      * Creates new form CalendarGenerator
      */
     public CalendarGenerator() {
         initComponents();
+        fillComboBoxFromDB();
+        //TODO: Change DateTime Picker to pop up
+        spnStartDate.setValue(new Date());
     }
 
     /**
@@ -32,17 +57,33 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
         panInput = new javax.swing.JPanel();
         lblStartDate = new javax.swing.JLabel();
         lblRaceType = new javax.swing.JLabel();
-        lblFileName = new javax.swing.JLabel();
         spnStartDate = new javax.swing.JSpinner();
         cmbRaceType = new javax.swing.JComboBox();
-        txtFileName = new javax.swing.JTextField();
+        btnToday = new javax.swing.JButton();
+        lblRacePace = new javax.swing.JLabel();
+        txtRacePaceMin = new javax.swing.JTextField();
+        txtRacePaceSeg = new javax.swing.JTextField();
+        lblRacePaceMin = new javax.swing.JLabel();
+        lblRacePaceSeg = new javax.swing.JLabel();
+        lblRacePaceMi = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Training Calendar Generator");
 
         btnGenerate.setText("Generate");
+        btnGenerate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         panInput.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -52,15 +93,30 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
         lblRaceType.setLabelFor(cmbRaceType);
         lblRaceType.setText("Race Type:");
 
-        lblFileName.setLabelFor(txtFileName);
-        lblFileName.setText("File Name:");
-
         spnStartDate.setModel(new javax.swing.SpinnerDateModel());
         spnStartDate.setToolTipText("");
+        spnStartDate.setEditor(new javax.swing.JSpinner.DateEditor(spnStartDate, "MM/dd/yyyy"));
 
         cmbRaceType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        txtFileName.setText("jTextField1");
+        btnToday.setText("Now");
+        btnToday.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodayActionPerformed(evt);
+            }
+        });
+
+        lblRacePace.setLabelFor(txtRacePaceMin);
+        lblRacePace.setText("Race Pace:");
+
+        lblRacePaceMin.setLabelFor(txtRacePaceMin);
+        lblRacePaceMin.setText("min");
+
+        lblRacePaceSeg.setLabelFor(txtRacePaceMin);
+        lblRacePaceSeg.setText("seg");
+
+        lblRacePaceMi.setLabelFor(txtRacePaceMin);
+        lblRacePaceMi.setText("/ mi");
 
         javax.swing.GroupLayout panInputLayout = new javax.swing.GroupLayout(panInput);
         panInput.setLayout(panInputLayout);
@@ -68,16 +124,28 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
             panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panInputLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblRaceType, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblStartDate, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblFileName, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblRacePace)
+                    .addComponent(lblRaceType)
+                    .addComponent(lblStartDate))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmbRaceType, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(49, Short.MAX_VALUE))
+                    .addGroup(panInputLayout.createSequentialGroup()
+                        .addComponent(spnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnToday))
+                    .addGroup(panInputLayout.createSequentialGroup()
+                        .addComponent(txtRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(lblRacePaceMin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(lblRacePaceSeg)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblRacePaceMi)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         panInputLayout.setVerticalGroup(
             panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,17 +153,29 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                    .addComponent(spnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnToday, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRaceType)
                     .addComponent(cmbRaceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(lblRacePace, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRacePaceMi, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,37 +186,303 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                 .addComponent(panInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addGap(80, 80, 80)
                 .addComponent(btnGenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(3, 3, 3))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGenerate)
-                    .addComponent(btnCancel))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGenerate)
+                            .addComponent(btnCancel))
+                        .addContainerGap(33, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addContainerGap())))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
+        String driver = "org.apache.derby.jdbc.ClientDriver";
+        String serverName = "localhost";
+        String databaseName = "racedb";
+        String user = "race";
+        String password = "race";
+        String url;
+        Connection connection;
+        String sql;
+        Statement stmt;
+        ResultSet rs;
+        Writer writer = null;
+
+        //TODO: Validate Inputs before generating file.
+
+        JFileChooser fileChooser = new JFileChooser();
+
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        fileChooser.setFileFilter(new FileNameExtensionFilter("iCalendar File", "ics"));
+        int intOption = fileChooser.showSaveDialog(null);
+
+        if (intOption == JFileChooser.APPROVE_OPTION) {
+            url = "jdbc:derby://" + serverName + ":1527/" + databaseName;
+
+            //Load JDBC Driver
+            try {
+                Class.forName(driver);
+            } catch (ClassNotFoundException e) {
+                System.err.println("Error: driver not found.");
+                return;
+            }
+
+            //Connect to DB
+            try {
+                connection = DriverManager.getConnection(url, user, password);
+            } catch (SQLException e) {
+                System.err.println("Error: Unable to connect.");
+                return;
+            }
+
+            //Read Table
+            try {
+                sql = "select * from race_wk_sched_det where rwsd_key = " + 
+                        cmbKeyIndex.get(cmbRaceType.getSelectedIndex()) + 
+                        " order by rwsd_seq";
+                stmt = connection.createStatement();
+                rs = stmt.executeQuery(sql);
+            } catch (SQLException e) {
+                System.err.println("Error: Unable to query table.");
+                return;
+            }
+
+            //Read data values
+            try {
+                writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(fileChooser.getSelectedFile()), "UTF-8"));
+
+                //Calendar Header
+                writer.write("BEGIN:VCALENDAR\n");
+                writer.write("VERSION:2.0\n");
+                writer.write("PRODID:-//Alejandro Najera//org.aptecic.racecalendar.RaceApp//EN\n");
+                writer.write("METHOD:PUBLISH\n");
+                writer.write("X-WR-CALNAME:Training Schedule\n");
+                writer.write("CALSCALE:GREGORIAN\n");
+                writer.write("\n");
+
+                //Calendar Time Zone
+                writer.write("BEGIN:VTIMEZONE\n");
+                writer.write("TZID:America/Chicago\n");
+                writer.write("TZURL:http://tzurl.org/zoneinfo-outlook/America/Chicago\n");
+                writer.write("X-LIC-LOCATION:America/Chicago\n");
+                writer.write("BEGIN:DAYLIGHT\n");
+                writer.write("TZOFFSETFROM:-0600\n");
+                writer.write("TZOFFSETTO:-0500\n");
+                writer.write("TZNAME:CDT\n");
+                writer.write("DTSTART:19700308T020000\n");
+                writer.write("RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\n");
+                writer.write("END:DAYLIGHT\n");
+                writer.write("BEGIN:STANDARD\n");
+                writer.write("TZOFFSETFROM:-0500\n");
+                writer.write("TZOFFSETTO:-0600\n");
+                writer.write("TZNAME:CST\n");
+                writer.write("DTSTART:19701101T020000\n");
+                writer.write("RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\n");
+                writer.write("END:STANDARD\n");
+                writer.write("END:VTIMEZONE\n");
+                writer.write("\n");
+
+                //Calendar Events                        
+                while (rs.next()) {
+                    writer.write("BEGIN:VEVENT\n");
+                    //When was created
+                    writer.write("DTSTAMP:" + getCurrentDate() + "\n");
+                    //UID = Date + GMT Time + WRK + Sequence
+                    writer.write("UID:" + getCurrentDate() + "-WRK" + 
+                            String.format("%03d", rs.getInt(2)) + 
+                            "@org.aptecic.racecalendar.RaceApp\n");
+                    //Distance
+                    writer.write("SUMMARY:" + rs.getString(5) + " mi\n");
+                    writer.write("STATUS:CONFIRMED\n");
+                    //Start Date + Days
+                    writer.write("DTSTART;TZID=America/Chicago:" + 
+                            getStartDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\n");
+                    //Start Date + Days
+                    writer.write("DTEND;TZID=America/Chicago:" + 
+                            getEndDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\n");
+                    //When was created
+                    writer.write("LAST-MODIFIED:" + getCurrentDate() + "\n");
+                    //What surface to run at
+                    writer.write("LOCATION:" + rs.getString(7) + "\n");
+                    //TODO: Calculate pace for easy runs.
+                    writer.write("DESCRIPTION:" + 
+                            "Workout Type: " + rs.getString(4) + " \\n" +
+                            "Distance: " + rs.getString(5) + " mi \\n" +
+                            "Pace: " + txtRacePaceMin.getText() + ":" + txtRacePaceSeg.getText() + " min/mi\n");
+                    writer.write("PRIORITY:0\n");
+                    writer.write("BEGIN:VALARM\n");
+                    writer.write("ACTION:DISPLAY\n");
+                    //Distance
+                    writer.write("DESCRIPTION:" + rs.getString(5) + " mi\n");
+                    writer.write("TRIGGER:-PT5M\n");
+                    writer.write("END:VALARM\n");
+                    writer.write("END:VEVENT\n");
+                    writer.write("\n");
+                }
+
+                //Calendar Footer
+                writer.write("END:VCALENDAR\n");
+                
+                rs.close();
+                stmt.close();
+                connection.close();
+            } catch (SQLException e) {
+                System.err.println("Error: Unable to read table data.");
+                return;
+            } catch (IOException e) {
+                System.err.println(e.getStackTrace());
+            } finally {
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(CalendarGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnGenerateActionPerformed
+
+    private void btnTodayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodayActionPerformed
+        spnStartDate.setValue(new Date());
+    }//GEN-LAST:event_btnTodayActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println(getStartDate((Date) spnStartDate.getValue(), 1));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnGenerate;
+    private javax.swing.JButton btnToday;
     private javax.swing.JComboBox cmbRaceType;
-    private javax.swing.JLabel lblFileName;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel lblRacePace;
+    private javax.swing.JLabel lblRacePaceMi;
+    private javax.swing.JLabel lblRacePaceMin;
+    private javax.swing.JLabel lblRacePaceSeg;
     private javax.swing.JLabel lblRaceType;
     private javax.swing.JLabel lblStartDate;
     private javax.swing.JPanel panInput;
     private javax.swing.JSpinner spnStartDate;
-    private javax.swing.JTextField txtFileName;
+    private javax.swing.JTextField txtRacePaceMin;
+    private javax.swing.JTextField txtRacePaceSeg;
     // End of variables declaration//GEN-END:variables
+
+    private void fillComboBoxFromDB() {
+        String driver = "org.apache.derby.jdbc.ClientDriver";
+        String serverName = "localhost";
+        String databaseName = "racedb";
+        String user = "race";
+        String password = "race";
+        String url;
+        Connection connection;
+        String sql;
+        Statement stmt;
+        ResultSet rs;
+
+        url = "jdbc:derby://" + serverName + ":1527/" + databaseName;
+
+        //Load JDBC Driver
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error: driver not found.");
+            return;
+        }
+
+        //Connect to DB
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to connect.");
+            return;
+        }
+
+        //Read Table
+        try {
+            sql = "select rws_key, rws_name from race_wk_sched_mstr";
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to query table.");
+            return;
+        }
+
+        //Read data values
+        try {
+            int x = 0;
+
+            cmbRaceType.removeAllItems();
+            while (rs.next()) {
+                cmbKeyIndex.put(x, rs.getString(1));
+                cmbRaceType.addItem(rs.getString(2));
+
+                x++;
+            }
+
+            rs.close();
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to read table data.");
+            return;
+        }
+    }
+
+    private String getCurrentDate() {
+        SimpleDateFormat dateFormatGmtD = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormatGmtT = new SimpleDateFormat("HHmmss");
+        
+        dateFormatGmtD.setTimeZone(TimeZone.getTimeZone("GMT"));
+        dateFormatGmtT.setTimeZone(TimeZone.getTimeZone("GMT"));
+        
+        return dateFormatGmtD.format(new Date()) + "T" + dateFormatGmtT.format(new Date()) + "Z";
+    }
+
+    private String getStartDate(Date startDate, Integer addDays) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        
+        Calendar calendar = Calendar.getInstance();
+        
+        calendar.setTime(startDate); // Now use today date.
+        calendar.add(Calendar.DATE, addDays); // Adding 5 days
+        
+        return dateFormat.format(calendar.getTime()) + "T" + "060000Z";
+    }
+
+    private String getEndDate(Date endDate, Integer addDays) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        
+        Calendar calendar = Calendar.getInstance();
+        
+        calendar.setTime(endDate); // Now use today date.
+        calendar.add(Calendar.DATE, addDays); // Adding 5 days
+        
+        return dateFormat.format(calendar.getTime()) + "T" + "070000Z";
+    }
 }

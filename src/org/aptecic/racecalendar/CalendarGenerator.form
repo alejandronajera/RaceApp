@@ -29,11 +29,13 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
               <Component id="btnGenerate" min="-2" pref="86" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="btnCancel" min="-2" pref="86" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -42,12 +44,21 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panInput" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnGenerate" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnGenerate" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="33" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -57,11 +68,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Generate"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenerateActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnCancel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="panInput">
       <Properties>
@@ -77,18 +94,32 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="lblRacePace" min="-2" max="-2" attributes="0"/>
                       <Component id="lblRaceType" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="lblStartDate" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblFileName" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="cmbRaceType" min="-2" pref="231" max="-2" attributes="0"/>
-                      <Component id="txtFileName" min="-2" pref="297" max="-2" attributes="0"/>
-                      <Component id="spnStartDate" min="-2" pref="231" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="spnStartDate" min="-2" pref="231" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="btnToday" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="txtRacePaceMin" min="-2" pref="37" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Component id="lblRacePaceMin" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="txtRacePaceSeg" min="-2" pref="37" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                          <Component id="lblRacePaceSeg" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lblRacePaceMi" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="49" max="32767" attributes="0"/>
+                  <EmptySpace pref="42" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -99,18 +130,23 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblStartDate" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="spnStartDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnToday" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblRaceType" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cmbRaceType" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblFileName" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
-                      <Component id="txtFileName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblRacePace" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="txtRacePaceMin" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtRacePaceSeg" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblRacePaceMin" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="lblRacePaceSeg" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="lblRacePaceMi" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="45" max="32767" attributes="0"/>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -132,20 +168,15 @@
             <Property name="text" type="java.lang.String" value="Race Type:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblFileName">
-          <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="txtFileName"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="File Name:"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JSpinner" name="spnStartDate">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="now" stepSize="5" type="date"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+              <SpinnerEditor format="MM/dd/yyyy" type="1"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmbRaceType">
@@ -160,12 +191,59 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtFileName">
+        <Component class="javax.swing.JButton" name="btnToday">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
+            <Property name="text" type="java.lang.String" value="Now"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTodayActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblRacePace">
+          <Properties>
+            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="txtRacePaceMin"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Race Pace:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtRacePaceMin">
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtRacePaceSeg">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblRacePaceMin">
+          <Properties>
+            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="txtRacePaceMin"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="min"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblRacePaceSeg">
+          <Properties>
+            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="txtRacePaceMin"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="seg"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblRacePaceMi">
+          <Properties>
+            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="txtRacePaceMin"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="/ mi"/>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jButton1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
