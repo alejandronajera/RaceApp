@@ -5,6 +5,15 @@
  */
 package org.aptecic.racecalendar;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Manuel G. Najera (najera_manuel_g@cat.com)
@@ -14,8 +23,9 @@ public class TrainingSchedule extends javax.swing.JInternalFrame {
     /**
      * Creates new form TrainingSchedule
      */
-    public TrainingSchedule() {
+    public TrainingSchedule(String planID) {
         initComponents();
+        fillGridFromDB(planID);
     }
 
     /**
@@ -27,26 +37,190 @@ public class TrainingSchedule extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panWorkouts = new javax.swing.JPanel();
+        scrWorkouts = new javax.swing.JScrollPane();
+        txtWorkouts = new javax.swing.JTextPane();
+        spWorkouts = new javax.swing.JScrollPane();
+        jtWorkouts = new javax.swing.JTable();
+        sepList = new javax.swing.JSeparator();
+
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
 
+        panWorkouts.setBorder(javax.swing.BorderFactory.createTitledBorder("Training Schedule"));
+
+        txtWorkouts.setEditable(false);
+        txtWorkouts.setText("The following grid shows the list of workouts for a given race distance.");
+        scrWorkouts.setViewportView(txtWorkouts);
+
+        jtWorkouts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jtWorkouts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtWorkoutsMouseClicked(evt);
+            }
+        });
+        spWorkouts.setViewportView(jtWorkouts);
+
+        javax.swing.GroupLayout panWorkoutsLayout = new javax.swing.GroupLayout(panWorkouts);
+        panWorkouts.setLayout(panWorkoutsLayout);
+        panWorkoutsLayout.setHorizontalGroup(
+            panWorkoutsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panWorkoutsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panWorkoutsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrWorkouts, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
+                    .addComponent(spWorkouts, javax.swing.GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE)
+                    .addComponent(sepList, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        panWorkoutsLayout.setVerticalGroup(
+            panWorkoutsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panWorkoutsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrWorkouts, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sepList, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(spWorkouts, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panWorkouts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panWorkouts, javax.swing.GroupLayout.PREFERRED_SIZE, 384, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtWorkoutsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtWorkoutsMouseClicked
+        if (evt.getClickCount() == 2) {
+            javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
+            int row = target.getSelectedRow();
+            int column = target.getSelectedColumn();
+
+            //TrainingSchedule trainingSchedule = new TrainingSchedule();
+            //trainingSchedule.setTitle(jtWorkouts.getValueAt(row, 1).toString());
+            //this.getParent().add(trainingSchedule);
+            //trainingSchedule.setVisible(true);
+        }
+    }//GEN-LAST:event_jtWorkoutsMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable jtWorkouts;
+    private javax.swing.JPanel panWorkouts;
+    private javax.swing.JScrollPane scrWorkouts;
+    private javax.swing.JSeparator sepList;
+    private javax.swing.JScrollPane spWorkouts;
+    private javax.swing.JTextPane txtWorkouts;
     // End of variables declaration//GEN-END:variables
+
+    private void fillGridFromDB(String planID) {
+        String driver = "org.apache.derby.jdbc.ClientDriver";
+        String serverName = "localhost";
+        String databaseName = "racedb";
+        String user = "race";
+        String password = "race";
+        String url;
+        Connection connection;
+        String sql;
+        Statement stmt;
+        ResultSet rs;
+        ResultSetMetaData md;
+        DefaultTableModel model = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+
+        url = "jdbc:derby://" + serverName + ":1527/" + databaseName;
+
+        //Load JDBC Driver
+        try {
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error: driver not found.");
+            return;
+        }
+
+        //Connect to DB
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to connect.");
+            return;
+        }
+
+        //Read Table
+        try {
+            sql = "select * from race_wk_sched_det where rwsd_key = " + 
+                    planID + " order by rwsd_seq";
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(sql);
+            md = rs.getMetaData();
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to query table.");
+            return;
+        }
+
+        //Read columns name
+        try {
+            for (int i = 1; i <= md.getColumnCount(); i++) {
+                model.addColumn(md.getColumnName(i));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to read table column's name.");
+            return;
+        }
+
+        //Read data values
+        try {
+            while (rs.next()) {
+                Vector row = new Vector(md.getColumnCount());
+
+                for (int i = 1; i <= md.getColumnCount(); i++) {
+                    row.add(rs.getObject(i));
+                }
+
+                model.addRow(row);
+            }
+
+            rs.close();
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println("Error: Unable to read table data.");
+            return;
+        }
+
+        jtWorkouts.setModel(model);
+    }
 }

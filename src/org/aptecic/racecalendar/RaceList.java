@@ -26,6 +26,7 @@ public class RaceList extends javax.swing.JInternalFrame {
     public RaceList() {
         initComponents();
         fillGridFromDB();
+        //TODO: Add database controls
     }
 
     /**
@@ -40,7 +41,7 @@ public class RaceList extends javax.swing.JInternalFrame {
         panList = new javax.swing.JPanel();
         scrList = new javax.swing.JScrollPane();
         txtList = new javax.swing.JTextPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        spRaces = new javax.swing.JScrollPane();
         jtRaces = new javax.swing.JTable();
         sepList = new javax.swing.JSeparator();
 
@@ -70,7 +71,7 @@ public class RaceList extends javax.swing.JInternalFrame {
                 jtRacesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtRaces);
+        spRaces.setViewportView(jtRaces);
 
         javax.swing.GroupLayout panListLayout = new javax.swing.GroupLayout(panList);
         panList.setLayout(panListLayout);
@@ -80,7 +81,7 @@ public class RaceList extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(panListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(scrList, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
+                    .addComponent(spRaces)
                     .addComponent(sepList, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -92,7 +93,7 @@ public class RaceList extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(sepList, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spRaces, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -122,7 +123,8 @@ public class RaceList extends javax.swing.JInternalFrame {
             int row = target.getSelectedRow();
             int column = target.getSelectedColumn();
             
-            TrainingSchedule trainingSchedule = new TrainingSchedule();
+            TrainingSchedule trainingSchedule = 
+                    new TrainingSchedule(jtRaces.getValueAt(row, 0).toString());
             trainingSchedule.setTitle(jtRaces.getValueAt(row, 1).toString());
             this.getParent().add(trainingSchedule);
             trainingSchedule.setVisible(true);
@@ -131,11 +133,11 @@ public class RaceList extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtRaces;
     private javax.swing.JPanel panList;
     private javax.swing.JScrollPane scrList;
     private javax.swing.JSeparator sepList;
+    private javax.swing.JScrollPane spRaces;
     private javax.swing.JTextPane txtList;
     // End of variables declaration//GEN-END:variables
 

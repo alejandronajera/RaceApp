@@ -29,13 +29,11 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
               <Component id="btnGenerate" min="-2" pref="86" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
               <Component id="btnCancel" min="-2" pref="86" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -44,21 +42,12 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panInput" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnGenerate" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="33" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGenerate" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -92,7 +81,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="lblRacePace" min="-2" max="-2" attributes="0"/>
@@ -108,12 +97,12 @@
                           <Component id="btnToday" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="txtRacePaceMin" min="-2" pref="37" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                          <Component id="spnRacePaceMin" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblRacePaceMin" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtRacePaceSeg" min="-2" pref="37" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                          <Component id="spnRacePaceSeg" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblRacePaceSeg" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblRacePaceMi" min="-2" max="-2" attributes="0"/>
@@ -140,11 +129,11 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblRacePace" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
-                      <Component id="txtRacePaceMin" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtRacePaceSeg" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lblRacePaceMin" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="lblRacePaceSeg" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="lblRacePaceMi" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="spnRacePaceMin" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="spnRacePaceSeg" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="24" max="32767" attributes="0"/>
               </Group>
@@ -201,49 +190,39 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblRacePace">
           <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="txtRacePaceMin"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Race Pace:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtRacePaceMin">
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtRacePaceSeg">
-        </Component>
         <Component class="javax.swing.JLabel" name="lblRacePaceMin">
           <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="txtRacePaceMin"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="min"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblRacePaceSeg">
           <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="txtRacePaceMin"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="seg"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblRacePaceMi">
           <Properties>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="txtRacePaceMin"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="/ mi"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="spnRacePaceMin">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0" maximum="59" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="spnRacePaceSeg">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0" maximum="59" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+            </Property>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jButton1"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-      </Events>
-    </Component>
   </SubComponents>
 </Form>

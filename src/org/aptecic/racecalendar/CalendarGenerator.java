@@ -61,12 +61,11 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
         cmbRaceType = new javax.swing.JComboBox();
         btnToday = new javax.swing.JButton();
         lblRacePace = new javax.swing.JLabel();
-        txtRacePaceMin = new javax.swing.JTextField();
-        txtRacePaceSeg = new javax.swing.JTextField();
         lblRacePaceMin = new javax.swing.JLabel();
         lblRacePaceSeg = new javax.swing.JLabel();
         lblRacePaceMi = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        spnRacePaceMin = new javax.swing.JSpinner();
+        spnRacePaceSeg = new javax.swing.JSpinner();
 
         setClosable(true);
         setTitle("Training Calendar Generator");
@@ -106,17 +105,17 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
             }
         });
 
-        lblRacePace.setLabelFor(txtRacePaceMin);
         lblRacePace.setText("Race Pace:");
 
-        lblRacePaceMin.setLabelFor(txtRacePaceMin);
         lblRacePaceMin.setText("min");
 
-        lblRacePaceSeg.setLabelFor(txtRacePaceMin);
         lblRacePaceSeg.setText("seg");
 
-        lblRacePaceMi.setLabelFor(txtRacePaceMin);
         lblRacePaceMi.setText("/ mi");
+
+        spnRacePaceMin.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+
+        spnRacePaceSeg.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
         javax.swing.GroupLayout panInputLayout = new javax.swing.GroupLayout(panInput);
         panInput.setLayout(panInputLayout);
@@ -136,12 +135,12 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnToday))
                     .addGroup(panInputLayout.createSequentialGroup()
-                        .addComponent(txtRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
+                        .addComponent(spnRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblRacePaceMin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
+                        .addComponent(spnRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblRacePaceSeg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblRacePaceMi)))
@@ -162,20 +161,13 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(panInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRacePace, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblRacePaceMi, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblRacePaceMi, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnRacePaceMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnRacePaceSeg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -186,30 +178,22 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                 .addComponent(panInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addGap(90, 90, 90)
                 .addComponent(btnGenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(102, 102, 102)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(3, 3, 3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGenerate)
-                            .addComponent(btnCancel))
-                        .addContainerGap(33, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addContainerGap())))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancel)
+                    .addComponent(btnGenerate))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -231,8 +215,6 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
         Statement stmt;
         ResultSet rs;
         Writer writer = null;
-
-        //TODO: Validate Inputs before generating file.
 
         JFileChooser fileChooser = new JFileChooser();
 
@@ -317,7 +299,7 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                             String.format("%03d", rs.getInt(2)) + 
                             "@org.aptecic.racecalendar.RaceApp\n");
                     //Distance
-                    writer.write("SUMMARY:" + rs.getString(5) + " mi\n");
+                    writer.write("SUMMARY:" + rs.getString(5) + " mi - " + rs.getString(4) + "\n");
                     writer.write("STATUS:CONFIRMED\n");
                     //Start Date + Days
                     writer.write("DTSTART;TZID=America/Chicago:" + 
@@ -333,12 +315,13 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                     writer.write("DESCRIPTION:" + 
                             "Workout Type: " + rs.getString(4) + " \\n" +
                             "Distance: " + rs.getString(5) + " mi \\n" +
-                            "Pace: " + txtRacePaceMin.getText() + ":" + txtRacePaceSeg.getText() + " min/mi\n");
+                            "Pace: " + spnRacePaceMin.getValue() + ":" + String.format("%02d", spnRacePaceSeg.getValue()) + " min/mi \\n" +
+                            "Notes: " + rs.getString(6) + "\n");
                     writer.write("PRIORITY:0\n");
                     writer.write("BEGIN:VALARM\n");
                     writer.write("ACTION:DISPLAY\n");
                     //Distance
-                    writer.write("DESCRIPTION:" + rs.getString(5) + " mi\n");
+                    writer.write("DESCRIPTION:" + rs.getString(5) + " mi - " + rs.getString(4) + "\n");
                     writer.write("TRIGGER:-PT5M\n");
                     writer.write("END:VALARM\n");
                     writer.write("END:VEVENT\n");
@@ -370,17 +353,12 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
         spnStartDate.setValue(new Date());
     }//GEN-LAST:event_btnTodayActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println(getStartDate((Date) spnStartDate.getValue(), 1));
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnGenerate;
     private javax.swing.JButton btnToday;
     private javax.swing.JComboBox cmbRaceType;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblRacePace;
     private javax.swing.JLabel lblRacePaceMi;
     private javax.swing.JLabel lblRacePaceMin;
@@ -388,9 +366,9 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblRaceType;
     private javax.swing.JLabel lblStartDate;
     private javax.swing.JPanel panInput;
+    private javax.swing.JSpinner spnRacePaceMin;
+    private javax.swing.JSpinner spnRacePaceSeg;
     private javax.swing.JSpinner spnStartDate;
-    private javax.swing.JTextField txtRacePaceMin;
-    private javax.swing.JTextField txtRacePaceSeg;
     // End of variables declaration//GEN-END:variables
 
     private void fillComboBoxFromDB() {
