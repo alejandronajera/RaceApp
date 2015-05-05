@@ -302,10 +302,10 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                     writer.write("SUMMARY:" + rs.getString(5) + " mi - " + rs.getString(4) + "\n");
                     writer.write("STATUS:CONFIRMED\n");
                     //Start Date + Days
-                    writer.write("DTSTART;TZID=America/Chicago:" + 
+                    writer.write("DTSTART;VALUE=DATE:" + 
                             getStartDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\n");
                     //Start Date + Days
-                    writer.write("DTEND;TZID=America/Chicago:" + 
+                    writer.write("DTEND;VALUE=DATE:" + 
                             getEndDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\n");
                     //When was created
                     writer.write("LAST-MODIFIED:" + getCurrentDate() + "\n");
@@ -322,7 +322,7 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                     writer.write("ACTION:DISPLAY\n");
                     //Distance
                     writer.write("DESCRIPTION:" + rs.getString(5) + " mi - " + rs.getString(4) + "\n");
-                    writer.write("TRIGGER:-PT5M\n");
+                    writer.write("TRIGGER:-PT240M\n");
                     writer.write("END:VALARM\n");
                     writer.write("END:VEVENT\n");
                     writer.write("\n");
@@ -450,7 +450,7 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
         calendar.setTime(startDate); // Now use today date.
         calendar.add(Calendar.DATE, addDays); // Adding 5 days
         
-        return dateFormat.format(calendar.getTime()) + "T" + "060000Z";
+        return dateFormat.format(calendar.getTime());
     }
 
     private String getEndDate(Date endDate, Integer addDays) {
@@ -461,6 +461,6 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
         calendar.setTime(endDate); // Now use today date.
         calendar.add(Calendar.DATE, addDays); // Adding 5 days
         
-        return dateFormat.format(calendar.getTime()) + "T" + "070000Z";
+        return dateFormat.format(calendar.getTime());
     }
 }
