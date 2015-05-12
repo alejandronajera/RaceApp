@@ -259,77 +259,77 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                         new FileOutputStream(fileChooser.getSelectedFile()), "UTF-8"));
 
                 //Calendar Header
-                writer.write("BEGIN:VCALENDAR\n");
-                writer.write("VERSION:2.0\n");
-                writer.write("PRODID:-//Alejandro Najera//org.aptecic.racecalendar.RaceApp//EN\n");
-                writer.write("METHOD:PUBLISH\n");
-                writer.write("X-WR-CALNAME:Training Schedule\n");
-                writer.write("CALSCALE:GREGORIAN\n");
-                writer.write("\n");
+                writer.write("BEGIN:VCALENDAR\r\n");
+                writer.write("VERSION:2.0\r\n");
+                writer.write("PRODID:-//Alejandro Najera//org.aptecic.racecalendar.RaceApp//EN\r\n");
+                writer.write("METHOD:PUBLISH\r\n");
+                writer.write("X-WR-CALNAME:Training Schedule\r\n");
+                writer.write("CALSCALE:GREGORIAN\r\n");
+                writer.write("\r\n");
 
                 //Calendar Time Zone
-                writer.write("BEGIN:VTIMEZONE\n");
-                writer.write("TZID:America/Chicago\n");
-                writer.write("TZURL:http://tzurl.org/zoneinfo-outlook/America/Chicago\n");
-                writer.write("X-LIC-LOCATION:America/Chicago\n");
-                writer.write("BEGIN:DAYLIGHT\n");
-                writer.write("TZOFFSETFROM:-0600\n");
-                writer.write("TZOFFSETTO:-0500\n");
-                writer.write("TZNAME:CDT\n");
-                writer.write("DTSTART:19700308T020000\n");
-                writer.write("RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\n");
-                writer.write("END:DAYLIGHT\n");
-                writer.write("BEGIN:STANDARD\n");
-                writer.write("TZOFFSETFROM:-0500\n");
-                writer.write("TZOFFSETTO:-0600\n");
-                writer.write("TZNAME:CST\n");
-                writer.write("DTSTART:19701101T020000\n");
-                writer.write("RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\n");
-                writer.write("END:STANDARD\n");
-                writer.write("END:VTIMEZONE\n");
-                writer.write("\n");
+                writer.write("BEGIN:VTIMEZONE\r\n");
+                writer.write("TZID:America/Chicago\r\n");
+                writer.write("TZURL:http://tzurl.org/zoneinfo-outlook/America/Chicago\r\n");
+                writer.write("X-LIC-LOCATION:America/Chicago\r\n");
+                writer.write("BEGIN:DAYLIGHT\r\n");
+                writer.write("TZOFFSETFROM:-0600\r\n");
+                writer.write("TZOFFSETTO:-0500\r\n");
+                writer.write("TZNAME:CDT\r\n");
+                writer.write("DTSTART:19700308T020000\r\n");
+                writer.write("RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\r\n");
+                writer.write("END:DAYLIGHT\r\n");
+                writer.write("BEGIN:STANDARD\r\n");
+                writer.write("TZOFFSETFROM:-0500\r\n");
+                writer.write("TZOFFSETTO:-0600\r\n");
+                writer.write("TZNAME:CST\r\n");
+                writer.write("DTSTART:19701101T020000\r\n");
+                writer.write("RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\r\n");
+                writer.write("END:STANDARD\r\n");
+                writer.write("END:VTIMEZONE\r\n");
+                writer.write("\r\n");
 
                 //Calendar Events                        
                 while (rs.next()) {
-                    writer.write("BEGIN:VEVENT\n");
+                    writer.write("BEGIN:VEVENT\r\n");
                     //When was created
-                    writer.write("DTSTAMP:" + getCurrentDate() + "\n");
+                    writer.write("DTSTAMP:" + getCurrentDate() + "\r\n");
                     //UID = Date + GMT Time + WRK + Sequence
                     writer.write("UID:" + getCurrentDate() + "-WRK" + 
                             String.format("%03d", rs.getInt(2)) + 
-                            "@org.aptecic.racecalendar.RaceApp\n");
+                            "@org.aptecic.racecalendar.RaceApp\r\n");
                     //Distance
-                    writer.write("SUMMARY:" + rs.getString(5) + " mi - " + rs.getString(4) + "\n");
-                    writer.write("STATUS:CONFIRMED\n");
+                    writer.write("SUMMARY:" + rs.getString(5) + " mi - " + rs.getString(4) + "\r\n");
+                    writer.write("STATUS:CONFIRMED\r\n");
                     //Start Date + Days
                     writer.write("DTSTART;VALUE=DATE:" + 
-                            getStartDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\n");
+                            getStartDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\r\n");
                     //Start Date + Days
                     writer.write("DTEND;VALUE=DATE:" + 
-                            getEndDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\n");
+                            getEndDate((Date) spnStartDate.getValue(), rs.getInt(3)) + "\r\n");
                     //When was created
-                    writer.write("LAST-MODIFIED:" + getCurrentDate() + "\n");
+                    writer.write("LAST-MODIFIED:" + getCurrentDate() + "\r\n");
                     //What surface to run at
-                    writer.write("LOCATION:" + rs.getString(7) + "\n");
+                    writer.write("LOCATION:" + rs.getString(7) + "\r\n");
                     //TODO: Calculate pace for easy runs.
                     writer.write("DESCRIPTION:" + 
                             "Workout Type: " + rs.getString(4) + " \\n" +
                             "Distance: " + rs.getString(5) + " mi \\n" +
                             "Pace: " + spnRacePaceMin.getValue() + ":" + String.format("%02d", spnRacePaceSeg.getValue()) + " min/mi \\n" +
-                            "Notes: " + rs.getString(6) + "\n");
-                    writer.write("PRIORITY:0\n");
-                    writer.write("BEGIN:VALARM\n");
-                    writer.write("ACTION:DISPLAY\n");
+                            "Notes: " + rs.getString(6) + "\r\n");
+                    writer.write("PRIORITY:0\r\n");
+                    writer.write("BEGIN:VALARM\r\n");
+                    writer.write("ACTION:DISPLAY\r\n");
                     //Distance
-                    writer.write("DESCRIPTION:" + rs.getString(5) + " mi - " + rs.getString(4) + "\n");
-                    writer.write("TRIGGER:-PT240M\n");
-                    writer.write("END:VALARM\n");
-                    writer.write("END:VEVENT\n");
-                    writer.write("\n");
+                    writer.write("DESCRIPTION:" + rs.getString(5) + " mi - " + rs.getString(4) + "\r\n");
+                    writer.write("TRIGGER:-PT240M\r\n");
+                    writer.write("END:VALARM\r\n");
+                    writer.write("END:VEVENT\r\n");
+                    writer.write("\r\n");
                 }
 
                 //Calendar Footer
-                writer.write("END:VCALENDAR\n");
+                writer.write("END:VCALENDAR\r\n");
                 
                 rs.close();
                 stmt.close();
