@@ -298,8 +298,19 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                     writer.write("UID:" + getCurrentDate() + "-WRK" + 
                             String.format("%03d", rs.getInt(2)) + 
                             "@org.aptecic.racecalendar.RaceApp\r\n");
+                    /*if (rs.getInt(2) <= 54) {
+                    writer.write("UID:20150518T183004Z-WRK" + 
+                            String.format("%03d", rs.getInt(2)) + 
+                            "@org.aptecic.racecalendar.RaceApp\r\n");
+                    } else {
+                    writer.write("UID:20150518T183005Z-WRK" + 
+                            String.format("%03d", rs.getInt(2)) + 
+                            "@org.aptecic.racecalendar.RaceApp\r\n");
+                    }*/
+                        
                     //Distance
-                    writer.write("SUMMARY:" + rs.getString(5) + " mi - " + rs.getString(4) + "\r\n");
+                    /*writer.write("SUMMARY:" + rs.getString(5) + " mi - " + rs.getString(4) + "\r\n");*/
+                    writer.write("SUMMARY:" + rs.getString(5) + " Km - " + rs.getString(4) + "\r\n");
                     writer.write("STATUS:CONFIRMED\r\n");
                     //Start Date + Days
                     writer.write("DTSTART;VALUE=DATE:" + 
@@ -312,16 +323,20 @@ public class CalendarGenerator extends javax.swing.JInternalFrame {
                     //What surface to run at
                     writer.write("LOCATION:" + rs.getString(7) + "\r\n");
                     //TODO: Calculate pace for easy runs.
-                    writer.write("DESCRIPTION:" + 
+                    /*writer.write("DESCRIPTION:" + 
                             "Workout Type: " + rs.getString(4) + " \\n" +
                             "Distance: " + rs.getString(5) + " mi \\n" +
                             "Pace: " + spnRacePaceMin.getValue() + ":" + String.format("%02d", spnRacePaceSeg.getValue()) + " min/mi \\n" +
-                            "Notes: " + rs.getString(6) + "\r\n");
+                            "Notes: " + rs.getString(6) + "\r\n");*/
+                    writer.write("DESCRIPTION:" + 
+                            "Distancia: " + rs.getString(5) + " Km \\n" +
+                            "Notas: " + rs.getString(6) + "\r\n");
                     writer.write("PRIORITY:0\r\n");
                     writer.write("BEGIN:VALARM\r\n");
                     writer.write("ACTION:DISPLAY\r\n");
                     //Distance
-                    writer.write("DESCRIPTION:" + rs.getString(5) + " mi - " + rs.getString(4) + "\r\n");
+                    /*writer.write("DESCRIPTION:" + rs.getString(5) + " mi - " + rs.getString(4) + "\r\n");*/
+                    writer.write("DESCRIPTION:" + rs.getString(5) + " Km - " + rs.getString(4) + "\r\n");
                     writer.write("TRIGGER:-PT240M\r\n");
                     writer.write("END:VALARM\r\n");
                     writer.write("END:VEVENT\r\n");
